@@ -34,6 +34,7 @@ function MeetingModal({ isOpen, onClose, title, isJoinMeeting }: MeetingModalPro
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
+
         <div className="space-y-4 pt-4">
           {isJoinMeeting && (
             <Input

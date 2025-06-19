@@ -10,9 +10,11 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 
 function MeetingPage() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = params.id as string | undefined;
+
   const { isLoaded } = useUser();
-  const { call, isCallLoading } = useGetCallById(typeof id === "string" ? id : "");
+  const { call, isCallLoading } = useGetCallById(id ?? "");
 
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
@@ -38,4 +40,5 @@ function MeetingPage() {
     </StreamCall>
   );
 }
+
 export default MeetingPage;
