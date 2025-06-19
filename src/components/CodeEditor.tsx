@@ -4,7 +4,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./ui/resiz
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { AlertCircleIcon, BookIcon, LightbulbIcon } from "lucide-react";
+import { AlertCircleIcon, BookIcon, LightbulbIcon, CodeIcon } from "lucide-react";
 import Editor from "@monaco-editor/react";
 
 function CodeEditor() {
@@ -26,129 +26,163 @@ function CodeEditor() {
   return (
     <ResizablePanelGroup direction="vertical" className="min-h-[calc-100vh-4rem-1px]">
       {/* QUESTION SECTION */}
-      <ResizablePanel>
+      <ResizablePanel defaultSize={40} minSize={20}>
         <ScrollArea className="h-full">
-          <div className="p-6">
+          <div className="p-6 space-y-6">
             <div className="max-w-4xl mx-auto space-y-6">
               {/* HEADER */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <h2 className="text-2xl font-semibold tracking-tight">
-                      {selectedQuestion.title}
-                    </h2>
+              <div className="glass-strong rounded-2xl p-6 border-0">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3">
+                      <div className="glass-subtle rounded-full p-2 glow-blue">
+                        <CodeIcon className="w-5 h-5 text-blue-500" />
+                      </div>
+                      <h2 className="text-2xl font-bold gradient-text">
+                        {selectedQuestion.title}
+                      </h2>
+                    </div>
+                    <p className="text-sm text-muted-foreground">
+                      Choose your approach and showcase your coding skills
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    Choose your language and solve the problem
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Select value={selectedQuestion.id} onValueChange={handleQuestionChange}>
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Select question" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CODING_QUESTIONS.map((q) => (
-                        <SelectItem key={q.id} value={q.id}>
-                          {q.title}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  
+                  <div className="flex items-center gap-3">
+                    {/* Question selector */}
+                    <Select value={selectedQuestion.id} onValueChange={handleQuestionChange}>
+                      <SelectTrigger className="w-[180px] glass-subtle border-0 focus:ring-2 focus:ring-blue-500/50">
+                        <SelectValue placeholder="Select question" />
+                      </SelectTrigger>
+                      <SelectContent className="glass border-0">
+                        {CODING_QUESTIONS.map((q) => (
+                          <SelectItem 
+                            key={q.id} 
+                            value={q.id}
+                            className="focus:bg-white/10 rounded-lg mx-1"
+                          >
+                            {q.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
 
-                  <Select value={language} onValueChange={handleLanguageChange}>
-                    <SelectTrigger className="w-[150px]">
-                      {/* SELECT VALUE */}
-                      <SelectValue>
-                        <div className="flex items-center gap-2">
-                          <img
-                            src={`/${language}.png`}
-                            alt={language}
-                            className="w-5 h-5 object-contain"
-                          />
-                          {LANGUAGES.find((l) => l.id === language)?.name}
-                        </div>
-                      </SelectValue>
-                    </SelectTrigger>
-                    {/* SELECT CONTENT */}
-                    <SelectContent>
-                      {LANGUAGES.map((lang) => (
-                        <SelectItem key={lang.id} value={lang.id}>
+                    {/* Language selector */}
+                    <Select value={language} onValueChange={handleLanguageChange}>
+                      <SelectTrigger className="w-[150px] glass-subtle border-0 focus:ring-2 focus:ring-blue-500/50">
+                        <SelectValue>
                           <div className="flex items-center gap-2">
                             <img
-                              src={`/${lang.id}.png`}
-                              alt={lang.name}
+                              src={`/${language}.png`}
+                              alt={language}
                               className="w-5 h-5 object-contain"
                             />
-                            {lang.name}
+                            <span className="font-medium">
+                              {LANGUAGES.find((l) => l.id === language)?.name}
+                            </span>
                           </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent className="glass border-0">
+                        {LANGUAGES.map((lang) => (
+                          <SelectItem 
+                            key={lang.id} 
+                            value={lang.id}
+                            className="focus:bg-white/10 rounded-lg mx-1"
+                          >
+                            <div className="flex items-center gap-2">
+                              <img
+                                src={`/${lang.id}.png`}
+                                alt={lang.name}
+                                className="w-5 h-5 object-contain"
+                              />
+                              <span className="font-medium">{lang.name}</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </div>
 
-              {/* PROBLEM DESC. */}
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-2">
-                  <BookIcon className="h-5 w-5 text-primary/80" />
-                  <CardTitle>Problem Description</CardTitle>
+              {/* PROBLEM DESCRIPTION */}
+              <Card className="glass border-0 liquid-hover">
+                <CardHeader className="flex flex-row items-center gap-3 pb-4">
+                  <div className="glass-subtle rounded-full p-2 glow-green">
+                    <BookIcon className="h-5 w-5 text-green-500" />
+                  </div>
+                  <CardTitle className="text-lg">Problem Description</CardTitle>
                 </CardHeader>
-                <CardContent className="text-sm leading-relaxed">
+                <CardContent>
                   <div className="prose prose-sm dark:prose-invert max-w-none">
-                    <p className="whitespace-pre-line">{selectedQuestion.description}</p>
+                    <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans">
+                      {selectedQuestion.description}
+                    </pre>
                   </div>
                 </CardContent>
               </Card>
 
-              {/* PROBLEM EXAMPLES */}
-              <Card>
-                <CardHeader className="flex flex-row items-center gap-2">
-                  <LightbulbIcon className="h-5 w-5 text-yellow-500" />
-                  <CardTitle>Examples</CardTitle>
+              {/* EXAMPLES */}
+              <Card className="glass border-0 liquid-hover">
+                <CardHeader className="flex flex-row items-center gap-3 pb-4">
+                  <div className="glass-subtle rounded-full p-2 glow-purple">
+                    <LightbulbIcon className="h-5 w-5 text-purple-500" />
+                  </div>
+                  <CardTitle className="text-lg">Examples</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <ScrollArea className="h-full w-full rounded-md border">
-                    <div className="p-4 space-y-4">
-                      {selectedQuestion.examples.map((example, index) => (
-                        <div key={index} className="space-y-2">
-                          <p className="font-medium text-sm">Example {index + 1}:</p>
-                          <ScrollArea className="h-full w-full rounded-md">
-                            <pre className="bg-muted/50 p-3 rounded-lg text-sm font-mono">
-                              <div>Input: {example.input}</div>
-                              <div>Output: {example.output}</div>
-                              {example.explanation && (
-                                <div className="pt-2 text-muted-foreground">
-                                  Explanation: {example.explanation}
-                                </div>
-                              )}
-                            </pre>
-                            <ScrollBar orientation="horizontal" />
-                          </ScrollArea>
+                  <div className="space-y-4">
+                    {selectedQuestion.examples.map((example, index) => (
+                      <div key={index} className="glass-subtle rounded-xl p-4 space-y-3">
+                        <p className="font-medium text-sm text-blue-400">
+                          Example {index + 1}:
+                        </p>
+                        <div className="glass rounded-lg p-4 font-mono text-sm space-y-2">
+                          <div className="flex flex-wrap gap-4">
+                            <div>
+                              <span className="text-green-400 font-medium">Input:</span>
+                              <span className="ml-2">{example.input}</span>
+                            </div>
+                            <div>
+                              <span className="text-blue-400 font-medium">Output:</span>
+                              <span className="ml-2">{example.output}</span>
+                            </div>
+                          </div>
+                          {example.explanation && (
+                            <div className="pt-2 border-t border-white/10">
+                              <span className="text-purple-400 font-medium">Explanation:</span>
+                              <span className="ml-2 text-muted-foreground">
+                                {example.explanation}
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      ))}
-                    </div>
-                    <ScrollBar />
-                  </ScrollArea>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
 
               {/* CONSTRAINTS */}
               {selectedQuestion.constraints && (
-                <Card>
-                  <CardHeader className="flex flex-row items-center gap-2">
-                    <AlertCircleIcon className="h-5 w-5 text-blue-500" />
-                    <CardTitle>Constraints</CardTitle>
+                <Card className="glass border-0 liquid-hover">
+                  <CardHeader className="flex flex-row items-center gap-3 pb-4">
+                    <div className="glass-subtle rounded-full p-2">
+                      <AlertCircleIcon className="h-5 w-5 text-orange-500" />
+                    </div>
+                    <CardTitle className="text-lg">Constraints</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <ul className="list-disc list-inside space-y-1.5 text-sm marker:text-muted-foreground">
+                    <div className="space-y-2">
                       {selectedQuestion.constraints.map((constraint, index) => (
-                        <li key={index} className="text-muted-foreground">
-                          {constraint}
-                        </li>
+                        <div key={index} className="flex items-start gap-3 text-sm">
+                          <div className="w-1.5 h-1.5 rounded-full bg-orange-500/60 mt-2 flex-shrink-0" />
+                          <span className="text-muted-foreground leading-relaxed">
+                            {constraint}
+                          </span>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </CardContent>
                 </Card>
               )}
@@ -158,32 +192,62 @@ function CodeEditor() {
         </ScrollArea>
       </ResizablePanel>
 
-      <ResizableHandle withHandle />
+      <ResizableHandle withHandle className="glass-subtle border-0 h-1 my-1 rounded-full" />
 
       {/* CODE EDITOR */}
-      <ResizablePanel defaultSize={60} maxSize={100}>
-        <div className="h-full relative">
-          <Editor
-            height={"100%"}
-            defaultLanguage={language}
-            language={language}
-            theme="vs-dark"
-            value={code}
-            onChange={(value) => setCode(value || "")}
-            options={{
-              minimap: { enabled: false },
-              fontSize: 18,
-              lineNumbers: "on",
-              scrollBeyondLastLine: false,
-              automaticLayout: true,
-              padding: { top: 16, bottom: 16 },
-              wordWrap: "on",
-              wrappingIndent: "indent",
-            }}
-          />
+      <ResizablePanel defaultSize={60} minSize={30}>
+        <div className="h-full relative glass border-0 rounded-2xl overflow-hidden">
+          {/* Editor header */}
+          <div className="glass-subtle p-4 border-b border-white/10">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1">
+                  <div className="w-3 h-3 rounded-full bg-red-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/60" />
+                </div>
+                <span className="text-sm font-medium text-muted-foreground">
+                  {selectedQuestion.title}.{language}
+                </span>
+              </div>
+              <div className="text-xs text-muted-foreground">
+                Press Ctrl/Cmd + S to save
+              </div>
+            </div>
+          </div>
+
+          {/* Monaco Editor */}
+          <div className="h-[calc(100%-4rem)]">
+            <Editor
+              height="100%"
+              defaultLanguage={language}
+              language={language}
+              theme="vs-dark"
+              value={code}
+              onChange={(value) => setCode(value || "")}
+              options={{
+                minimap: { enabled: false },
+                fontSize: 16,
+                lineNumbers: "on",
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+                padding: { top: 20, bottom: 20 },
+                wordWrap: "on",
+                wrappingIndent: "indent",
+                fontFamily: "'JetBrains Mono', 'Fira Code', 'Monaco', monospace",
+                fontLigatures: true,
+                cursorBlinking: "smooth",
+                cursorSmoothCaretAnimation: "on",
+                smoothScrolling: true,
+                renderLineHighlight: "gutter",
+                bracketPairColorization: { enabled: true },
+              }}
+            />
+          </div>
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   );
 }
+
 export default CodeEditor;

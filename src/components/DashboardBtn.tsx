@@ -12,11 +12,12 @@ function DasboardBtn() {
 
   return (
     <Link href={"/dashboard"}>
-      <Button className="gap-2 font-medium" size={"sm"}>
+      <Button className="gap-2 font-medium glass-subtle border-0 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 hover:text-blue-300 transition-all duration-300 ripple glow-blue" size={"sm"}>
         <SparklesIcon className="size-4" />
         Dashboard
       </Button>
     </Link>
   );
 }
+
 export default DasboardBtn;

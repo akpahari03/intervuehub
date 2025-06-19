@@ -9,7 +9,7 @@ import { api } from "../../../../convex/_generated/api";
 import { useRouter } from "next/navigation";
 import MeetingModal from "@/components/MeetingModal";
 import LoaderUI from "@/components/LoaderUI";
-import { Loader2Icon } from "lucide-react";
+import { Loader2Icon, SparklesIcon } from "lucide-react";
 import MeetingCard from "@/components/MeetingCard";
 
 export default function Home() {
@@ -38,29 +38,52 @@ export default function Home() {
   if (isLoading) return <LoaderUI />;
 
   return (
-    <div className="container max-w-7xl mx-auto p-6">
+    <div className="container max-w-7xl mx-auto p-6 space-y-12">
       {/* WELCOME SECTION */}
-      <div className="rounded-lg bg-card p-6 border shadow-sm mb-10">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-emerald-600 to-teal-500 bg-clip-text text-transparent">
-          Welcome back!
-        </h1>
-        <p className="text-muted-foreground mt-2">
-          {isInterviewer
-            ? "Manage your interviews and review candidates effectively"
-            : "Access your upcoming interviews and preparations"}
-        </p>
+      <div className="relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl float" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl float-delayed" />
+        
+        <div className="relative glass-strong rounded-3xl p-8 md:p-12 border-gradient">
+          <div className="text-center space-y-6">
+            <div className="flex items-center justify-center mb-4">
+              <div className="glass-subtle rounded-full p-3 glow-blue">
+                <SparklesIcon className="w-8 h-8 text-blue-500" />
+              </div>
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold gradient-text leading-tight">
+              Welcome back!
+            </h1>
+            
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+              {isInterviewer
+                ? "Orchestrate seamless interviews and discover exceptional talent with our liquid-smooth platform"
+                : "Step into your next opportunity with confidence and clarity"}
+            </p>
+          </div>
+        </div>
       </div>
 
       {isInterviewer ? (
         <>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {QUICK_ACTIONS.map((action) => (
-              <ActionCard
-                key={action.title}
-                action={action}
-                onClick={() => handleQuickAction(action.title)}
-              />
-            ))}
+          {/* QUICK ACTIONS GRID */}
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold mb-2">Quick Actions</h2>
+              <p className="text-muted-foreground">Everything you need at your fingertips</p>
+            </div>
+            
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {QUICK_ACTIONS.map((action) => (
+                <ActionCard
+                  key={action.title}
+                  action={action}
+                  onClick={() => handleQuickAction(action.title)}
+                />
+              ))}
+            </div>
           </div>
 
           <MeetingModal
@@ -72,27 +95,40 @@ export default function Home() {
         </>
       ) : (
         <>
-          <div>
-            <h1 className="text-3xl font-bold">Your Interviews</h1>
-            <p className="text-muted-foreground mt-1">View and join your scheduled interviews</p>
-          </div>
+          {/* CANDIDATE INTERVIEWS SECTION */}
+          <div className="space-y-8">
+            <div className="text-center">
+              <h2 className="text-3xl font-bold mb-2">Your Interviews</h2>
+              <p className="text-muted-foreground">Your journey to success starts here</p>
+            </div>
 
-          <div className="mt-8">
-            {interviews === undefined ? (
-              <div className="flex justify-center py-12">
-                <Loader2Icon className="h-8 w-8 animate-spin text-muted-foreground" />
-              </div>
-            ) : interviews.length > 0 ? (
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {interviews.map((interview) => (
-                  <MeetingCard key={interview._id} interview={interview} />
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-12 text-muted-foreground">
-                You have no scheduled interviews at the moment
-              </div>
-            )}
+            <div className="glass-subtle rounded-2xl p-8">
+              {interviews === undefined ? (
+                <div className="flex justify-center py-16">
+                  <div className="glass rounded-full p-4">
+                    <Loader2Icon className="h-8 w-8 animate-spin text-blue-500" />
+                  </div>
+                </div>
+              ) : interviews.length > 0 ? (
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {interviews.map((interview) => (
+                    <MeetingCard key={interview._id} interview={interview} />
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-16 space-y-4">
+                  <div className="glass rounded-full w-20 h-20 flex items-center justify-center mx-auto">
+                    <SparklesIcon className="w-8 h-8 text-muted-foreground" />
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-medium mb-2">No interviews yet</h3>
+                    <p className="text-muted-foreground">
+                      Your scheduled interviews will appear here
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}
