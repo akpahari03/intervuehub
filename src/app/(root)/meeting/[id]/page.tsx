@@ -12,7 +12,7 @@ import { useState } from "react";
 function MeetingPage() {
   const { id } = useParams();
   const { isLoaded } = useUser();
-  const { call, isCallLoading } = useGetCallById(id);
+  const { call, isCallLoading } = useGetCallById(typeof id === "string" ? id : "");
 
   const [isSetupComplete, setIsSetupComplete] = useState(false);
 
