@@ -39,8 +39,8 @@ export const QUICK_ACTIONS = [
     icon: Users,
     title: "Join Interview",
     description: "Enter via invitation link",
-    color: "purple-500",
-    gradient: "from-purple-500/10 via-purple-500/5 to-transparent",
+    color: "emerald-500",
+    gradient: "from-emerald-500/10 via-emerald-500/5 to-transparent",
   },
   {
     icon: Calendar,

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ModeToggle } from "./ModeToggle";
-import { CodeIcon } from "lucide-react";
+import { UserCheckIcon } from "lucide-react";
 import { SignedIn, UserButton } from "@clerk/nextjs";
 import DasboardBtn from "./DashboardBtn";
 
@@ -14,7 +14,7 @@ function Navbar() {
           className="flex items-center gap-3 font-semibold text-2xl mr-8 font-mono liquid-hover group"
         >
           <div className="relative">
-            <CodeIcon className="size-8 text-blue-500 transition-all duration-500 group-hover:rotate-12 group-hover:scale-110" />
+            <UserCheckIcon className="size-8 text-blue-500 transition-all duration-500 group-hover:rotate-12 group-hover:scale-110" />
             <div className="absolute inset-0 size-8 rounded-full bg-blue-500/20 blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           </div>
           <span className="gradient-text font-bold tracking-tight">

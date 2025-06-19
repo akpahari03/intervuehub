@@ -22,19 +22,19 @@ function ActionCard({ action, onClick }: { action: QuickActionType; onClick: () 
           <div className="relative">
             <div className={`w-16 h-16 rounded-2xl glass-subtle flex items-center justify-center group-hover:scale-110 transition-all duration-500 ${
               action.color === 'primary' ? 'glow-blue' :
-              action.color === 'purple-500' ? 'glow-purple' :
-              action.color === 'blue-500' ? 'glow-blue' : 'glow-green'
+              action.color === 'purple-500' ? 'glow-emerald' :
+              action.color === 'blue-500' ? 'glow-blue' : 'glow-orange'
             }`}>
               <action.icon className={`h-8 w-8 ${
                 action.color === 'primary' ? 'text-blue-500' :
-                action.color === 'purple-500' ? 'text-purple-500' :
-                action.color === 'blue-500' ? 'text-blue-500' : 'text-green-500'
+                action.color === 'purple-500' ? 'text-emerald-500' :
+                action.color === 'blue-500' ? 'text-blue-500' : 'text-orange-500'
               } transition-all duration-500 group-hover:scale-110`} />
             </div>
             
             {/* Floating particles effect */}
             <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-pulse" />
-            <div className="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-purple-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse" />
+            <div className="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-emerald-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-700 animate-pulse" />
           </div>
 
           {/* Text content */}

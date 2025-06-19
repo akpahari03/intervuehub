@@ -43,7 +43,7 @@ export default function Home() {
       <div className="relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl float" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl float-delayed" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl float-delayed" />
         
         <div className="relative glass-strong rounded-3xl p-8 md:p-12 border-gradient">
           <div className="text-center space-y-6">
@@ -59,7 +59,7 @@ export default function Home() {
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {isInterviewer
-                ? "Orchestrate seamless interviews and discover exceptional talent "
+                ? "Orchestrate seamless interviews and discover exceptional talent"
                 : "Step into your next opportunity with confidence and clarity"}
             </p>
           </div>
