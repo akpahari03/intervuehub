@@ -59,7 +59,7 @@ export default function Home() {
             
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
               {isInterviewer
-                ? "Orchestrate seamless interviews and discover exceptional talent with our liquid-smooth platform"
+                ? "Orchestrate seamless interviews and discover exceptional talent "
                 : "Step into your next opportunity with confidence and clarity"}
             </p>
           </div>

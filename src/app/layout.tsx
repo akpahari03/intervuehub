@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "IntervueHub",
-  description: "Minimal liquid glass interview platform",
+  description: "A video calling interview platform",
 };
 
 export default function RootLayout({
