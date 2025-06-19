@@ -1,6 +1,6 @@
 # IntervueHub 🎯
 
-**A modern, liquid glass interview platform for seamless technical interviews with real-time collaboration.**
+**A interview platform for seamless technical interviews with real-time collaboration.**
 
 ![IntervueHub Banner](./public/intervuehub.png)
 
