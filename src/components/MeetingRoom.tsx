@@ -30,85 +30,67 @@ function MeetingRoom() {
 
   if (callingState !== CallingState.JOINED) {
     return (
-      <div className="h-96 flex items-center justify-center">
-        <div className="relative">
-          <div className="glass rounded-full p-6 glow-blue">
-            <LoaderIcon className="size-6 animate-spin text-blue-500" />
-          </div>
-          <div className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-green-500/50 animate-ping" />
-          <div className="absolute -bottom-1 -left-1 w-2 h-2 rounded-full bg-purple-500/50 animate-ping" style={{ animationDelay: '0.5s' }} />
+      <div className="h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <LoaderIcon className="size-6 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Joining interview...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="h-[calc(100vh-4rem-1px)] bg-gradient-to-br from-background via-background to-background/50">
-      <ResizablePanelGroup direction="horizontal">
-        <ResizablePanel defaultSize={35} minSize={25} maxSize={100} className="relative">
-          {/* VIDEO LAYOUT */}
-          <div className="absolute inset-0 rounded-2xl overflow-hidden">
-            <div className="glass-subtle h-full">
-              {layout === "grid" ? <PaginatedGridLayout /> : <SpeakerLayout />}
-            </div>
+    <div className="h-screen bg-background">
+      <ResizablePanelGroup direction="horizontal" className="h-full">
+        {/* Video Panel */}
+        <ResizablePanel defaultSize={35} minSize={25} maxSize={75} className="relative">
+          <div className="absolute inset-0 bg-muted/5">
+            {layout === "grid" ? <PaginatedGridLayout /> : <SpeakerLayout />}
 
-            {/* PARTICIPANTS LIST OVERLAY */}
+            {/* Participants Overlay */}
             {showParticipants && (
-              <div className="absolute right-2 top-2 bottom-20 w-[320px] glass rounded-xl border-0 overflow-hidden">
+              <div className="absolute right-0 top-0 h-full w-80 bg-background/95 backdrop-blur border-l border-border">
                 <CallParticipantsList onClose={() => setShowParticipants(false)} />
               </div>
             )}
           </div>
 
-          {/* VIDEO CONTROLS */}
-          <div className="absolute bottom-6 left-6 right-6">
-            <div className="flex flex-col items-center gap-4">
-              {/* Main call controls */}
-              <div className="glass-strong rounded-2xl p-3 border-0">
-                <CallControls onLeave={() => router.push("/")} />
-              </div>
+          {/* Controls */}
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className="flex items-center justify-center">
+              <div className="bg-background/90 backdrop-blur rounded-lg border border-border p-2 shadow-sm">
+                <div className="flex items-center gap-2">
+                  <CallControls onLeave={() => router.push("/")} />
+                  
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="sm" className="h-8 w-8 p-0">
+                        <LayoutListIcon className="size-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setLayout("grid")}>
+                        Grid View
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setLayout("speaker")}>
+                        Speaker View
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
 
-              {/* Additional controls */}
-              <div className="flex items-center gap-3">
-                {/* Layout selector */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      size="icon" 
-                      className="size-12 glass-subtle border-0 liquid-hover glow-blue"
-                    >
-                      <LayoutListIcon className="size-5" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="glass border-0 mb-2">
-                    <DropdownMenuItem 
-                      onClick={() => setLayout("grid")}
-                      className="liquid-hover rounded-lg mx-1 focus:bg-white/10"
-                    >
-                      Grid View
-                    </DropdownMenuItem>
-                    <DropdownMenuItem 
-                      onClick={() => setLayout("speaker")}
-                      className="liquid-hover rounded-lg mx-1 focus:bg-white/10"
-                    >
-                      Speaker View
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-8 w-8 p-0"
+                    onClick={() => setShowParticipants(!showParticipants)}
+                  >
+                    <UsersIcon className="size-4" />
+                  </Button>
 
-                {/* Participants toggle */}
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="size-12 glass-subtle border-0 liquid-hover glow-purple"
-                  onClick={() => setShowParticipants(!showParticipants)}
-                >
-                  <UsersIcon className="size-5" />
-                </Button>
-
-                {/* End call button */}
-                <div className="glass-subtle rounded-xl p-1">
+                  <div className="w-px h-6 bg-border mx-1" />
+                  
                   <EndCallButton />
                 </div>
               </div>
@@ -116,10 +98,11 @@ function MeetingRoom() {
           </div>
         </ResizablePanel>
 
-        <ResizableHandle withHandle className="glass-subtle border-0 w-1 mx-1 rounded-full" />
+        <ResizableHandle withHandle className="bg-border hover:bg-border/60 transition-colors" />
 
+        {/* Code Editor Panel */}
         <ResizablePanel defaultSize={65} minSize={25}>
-          <div className="h-full glass-subtle rounded-2xl overflow-hidden ml-2">
+          <div className="h-full border-l border-border">
             <CodeEditor />
           </div>
         </ResizablePanel>

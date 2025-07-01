@@ -4,7 +4,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "./ui/resiz
 import { ScrollArea, ScrollBar } from "./ui/scroll-area";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { AlertCircleIcon, BookIcon, LightbulbIcon, CodeIcon } from "lucide-react";
+import { AlertCircleIcon, BookIcon, LightbulbIcon } from "lucide-react";
 import Editor from "@monaco-editor/react";
 
 function CodeEditor() {
@@ -24,226 +24,190 @@ function CodeEditor() {
   };
 
   return (
-    <ResizablePanelGroup direction="vertical" className="min-h-[calc-100vh-4rem-1px]">
-      {/* QUESTION SECTION */}
-      <ResizablePanel defaultSize={40} minSize={20}>
-        <ScrollArea className="h-full">
-          <div className="p-6 space-y-6">
-            <div className="max-w-4xl mx-auto space-y-6">
-              {/* HEADER */}
-              <div className="glass-strong rounded-2xl p-6 border-0">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3">
-                      <div className="glass-subtle rounded-full p-2 glow-blue">
-                        <CodeIcon className="w-5 h-5 text-blue-500" />
-                      </div>
-                      <h2 className="text-2xl font-bold gradient-text">
-                        {selectedQuestion.title}
-                      </h2>
-                    </div>
-                    <p className="text-sm text-muted-foreground">
-                      Choose your approach and showcase your coding skills
-                    </p>
-                  </div>
-                  
-                  <div className="flex items-center gap-3">
-                    {/* Question selector */}
-                    <Select value={selectedQuestion.id} onValueChange={handleQuestionChange}>
-                      <SelectTrigger className="w-[180px] glass-subtle border-0 focus:ring-2 focus:ring-blue-500/50">
-                        <SelectValue placeholder="Select question" />
-                      </SelectTrigger>
-                      <SelectContent className="glass border-0">
-                        {CODING_QUESTIONS.map((q) => (
-                          <SelectItem 
-                            key={q.id} 
-                            value={q.id}
-                            className="focus:bg-white/10 rounded-lg mx-1"
-                          >
-                            {q.title}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+    <ResizablePanelGroup direction="vertical" className="h-full bg-background">
+      {/* Problem Section */}
+      <ResizablePanel defaultSize={40} minSize={25}>
+        <div className="h-full bg-gradient-to-br from-muted/30 to-background border-b border-border/30">
+          <ScrollArea className="h-full">
+            <div className="p-8 space-y-8">
+              {/* Enhanced Header Controls */}
+              <div className="flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
+                <div className="space-y-2">
+                  <h2 className="text-2xl font-bold text-foreground">
+                    {selectedQuestion.title}
+                  </h2>
+                  <p className="text-muted-foreground">
+                    Choose your programming language and solve the challenge
+                  </p>
+                </div>
+                
+                <div className="flex gap-3">
+                  <Select value={selectedQuestion.id} onValueChange={handleQuestionChange}>
+                    <SelectTrigger className="w-48 h-11 rounded-xl border-border/60">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-border/20">
+                      {CODING_QUESTIONS.map((q) => (
+                        <SelectItem key={q.id} value={q.id} className="text-sm rounded-lg">
+                          {q.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
 
-                    {/* Language selector */}
-                    <Select value={language} onValueChange={handleLanguageChange}>
-                      <SelectTrigger className="w-[150px] glass-subtle border-0 focus:ring-2 focus:ring-blue-500/50">
-                        <SelectValue>
-                          <div className="flex items-center gap-2">
+                  <Select value={language} onValueChange={handleLanguageChange}>
+                    <SelectTrigger className="w-36 h-11 rounded-xl border-border/60">
+                      <SelectValue>
+                        <div className="flex items-center gap-3">
+                          <img
+                            src={`/${language}.png`}
+                            alt={language}
+                            className="w-5 h-5"
+                          />
+                          <span className="font-medium">
+                            {LANGUAGES.find((l) => l.id === language)?.name}
+                          </span>
+                        </div>
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-border/20">
+                      {LANGUAGES.map((lang) => (
+                        <SelectItem key={lang.id} value={lang.id} className="rounded-lg">
+                          <div className="flex items-center gap-3">
                             <img
-                              src={`/${language}.png`}
-                              alt={language}
-                              className="w-5 h-5 object-contain"
+                              src={`/${lang.id}.png`}
+                              alt={lang.name}
+                              className="w-5 h-5"
                             />
-                            <span className="font-medium">
-                              {LANGUAGES.find((l) => l.id === language)?.name}
-                            </span>
+                            <span className="font-medium">{lang.name}</span>
                           </div>
-                        </SelectValue>
-                      </SelectTrigger>
-                      <SelectContent className="glass border-0">
-                        {LANGUAGES.map((lang) => (
-                          <SelectItem 
-                            key={lang.id} 
-                            value={lang.id}
-                            className="focus:bg-white/10 rounded-lg mx-1"
-                          >
-                            <div className="flex items-center gap-2">
-                              <img
-                                src={`/${lang.id}.png`}
-                                alt={lang.name}
-                                className="w-5 h-5 object-contain"
-                              />
-                              <span className="font-medium">{lang.name}</span>
-                            </div>
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
-              {/* PROBLEM DESCRIPTION */}
-              <Card className="glass border-0 liquid-hover">
-                <CardHeader className="flex flex-row items-center gap-3 pb-4">
-                  <div className="glass-subtle rounded-full p-2 glow-green">
-                    <BookIcon className="h-5 w-5 text-green-500" />
-                  </div>
-                  <CardTitle className="text-lg">Problem Description</CardTitle>
+              {/* Enhanced Problem Description */}
+              <Card className="border-border/60 bg-gradient-surface rounded-2xl shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg flex items-center gap-3">
+                    <div className="w-8 h-8 bg-primary/10 rounded-xl flex items-center justify-center">
+                      <BookIcon className="h-4 w-4 text-primary" />
+                    </div>
+                    Problem Description
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="prose prose-sm dark:prose-invert max-w-none">
-                    <pre className="whitespace-pre-wrap text-sm leading-relaxed font-sans">
-                      {selectedQuestion.description}
-                    </pre>
-                  </div>
+                <CardContent className="pt-0">
+                  <p className="text-foreground leading-relaxed whitespace-pre-line">
+                    {selectedQuestion.description}
+                  </p>
                 </CardContent>
               </Card>
 
-              {/* EXAMPLES */}
-              <Card className="glass border-0 liquid-hover">
-                <CardHeader className="flex flex-row items-center gap-3 pb-4">
-                  <div className="glass-subtle rounded-full p-2 glow-purple">
-                    <LightbulbIcon className="h-5 w-5 text-purple-500" />
-                  </div>
-                  <CardTitle className="text-lg">Examples</CardTitle>
+              {/* Enhanced Examples */}
+              <Card className="border-border/60 bg-gradient-surface rounded-2xl shadow-sm">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-lg flex items-center gap-3">
+                    <div className="w-8 h-8 bg-yellow-500/10 rounded-xl flex items-center justify-center">
+                      <LightbulbIcon className="h-4 w-4 text-yellow-600" />
+                    </div>
+                    Examples
+                  </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {selectedQuestion.examples.map((example, index) => (
-                      <div key={index} className="glass-subtle rounded-xl p-4 space-y-3">
-                        <p className="font-medium text-sm text-blue-400">
-                          Example {index + 1}:
-                        </p>
-                        <div className="glass rounded-lg p-4 font-mono text-sm space-y-2">
-                          <div className="flex flex-wrap gap-4">
-                            <div>
-                              <span className="text-green-400 font-medium">Input:</span>
-                              <span className="ml-2">{example.input}</span>
-                            </div>
-                            <div>
-                              <span className="text-blue-400 font-medium">Output:</span>
-                              <span className="ml-2">{example.output}</span>
-                            </div>
-                          </div>
+                <CardContent className="pt-0 space-y-6">
+                  {selectedQuestion.examples.map((example, index) => (
+                    <div key={index} className="space-y-3">
+                      <p className="font-semibold text-foreground">Example {index + 1}:</p>
+                      <div className="bg-muted/50 rounded-xl p-4 border border-border/30">
+                        <pre className="text-sm font-mono space-y-1">
+                          <div className="text-foreground"><span className="text-primary font-semibold">Input:</span> {example.input}</div>
+                          <div className="text-foreground"><span className="text-green-600 font-semibold">Output:</span> {example.output}</div>
                           {example.explanation && (
-                            <div className="pt-2 border-t border-white/10">
-                              <span className="text-purple-400 font-medium">Explanation:</span>
-                              <span className="ml-2 text-muted-foreground">
-                                {example.explanation}
-                              </span>
+                            <div className="pt-2 text-muted-foreground">
+                              <span className="text-blue-600 font-semibold">Explanation:</span> {example.explanation}
                             </div>
                           )}
-                        </div>
+                        </pre>
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </CardContent>
               </Card>
 
-              {/* CONSTRAINTS */}
+              {/* Enhanced Constraints */}
               {selectedQuestion.constraints && (
-                <Card className="glass border-0 liquid-hover">
-                  <CardHeader className="flex flex-row items-center gap-3 pb-4">
-                    <div className="glass-subtle rounded-full p-2">
-                      <AlertCircleIcon className="h-5 w-5 text-orange-500" />
-                    </div>
-                    <CardTitle className="text-lg">Constraints</CardTitle>
+                <Card className="border-border/60 bg-gradient-surface rounded-2xl shadow-sm">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-3">
+                      <div className="w-8 h-8 bg-blue-500/10 rounded-xl flex items-center justify-center">
+                        <AlertCircleIcon className="h-4 w-4 text-blue-600" />
+                      </div>
+                      Constraints
+                    </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
+                  <CardContent className="pt-0">
+                    <ul className="space-y-2">
                       {selectedQuestion.constraints.map((constraint, index) => (
-                        <div key={index} className="flex items-start gap-3 text-sm">
-                          <div className="w-1.5 h-1.5 rounded-full bg-orange-500/60 mt-2 flex-shrink-0" />
-                          <span className="text-muted-foreground leading-relaxed">
-                            {constraint}
-                          </span>
-                        </div>
+                        <li key={index} className="text-muted-foreground flex items-start gap-3">
+                          <span className="w-2 h-2 bg-primary/60 rounded-full mt-2.5 flex-shrink-0"></span>
+                          <span className="font-mono text-sm">{constraint}</span>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   </CardContent>
                 </Card>
               )}
             </div>
-          </div>
-          <ScrollBar />
-        </ScrollArea>
+            <ScrollBar />
+          </ScrollArea>
+        </div>
       </ResizablePanel>
 
-      <ResizableHandle withHandle className="glass-subtle border-0 h-1 my-1 rounded-full" />
+      <ResizableHandle withHandle className="bg-border/30 hover:bg-primary/20 transition-colors h-1" />
 
-      {/* CODE EDITOR */}
+      {/* Enhanced Code Editor */}
       <ResizablePanel defaultSize={60} minSize={30}>
-        <div className="h-full relative glass border-0 rounded-2xl overflow-hidden">
-          {/* Editor header */}
-          <div className="glass-subtle p-4 border-b border-white/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="flex gap-1">
-                  <div className="w-3 h-3 rounded-full bg-red-500/60" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/60" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/60" />
-                </div>
-                <span className="text-sm font-medium text-muted-foreground">
-                  {selectedQuestion.title}.{language}
-                </span>
+        <div className="h-full bg-[#1e1e1e] rounded-tl-3xl overflow-hidden">
+          <div className="h-12 bg-[#2d2d30] px-6 flex items-center border-b border-[#3e3e42]">
+            <div className="flex items-center gap-3">
+              <div className="flex gap-2">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
               </div>
-              <div className="text-xs text-muted-foreground">
-                Press Ctrl/Cmd + S to save
-              </div>
+              <span className="text-white/70 text-sm font-medium ml-2">
+                {selectedQuestion.title}.{language === "javascript" ? "js" : language === "python" ? "py" : "java"}
+              </span>
             </div>
           </div>
-
-          {/* Monaco Editor */}
-          <div className="h-[calc(100%-4rem)]">
-            <Editor
-              height="100%"
-              defaultLanguage={language}
-              language={language}
-              theme="vs-dark"
-              value={code}
-              onChange={(value) => setCode(value || "")}
-              options={{
-                minimap: { enabled: false },
-                fontSize: 16,
-                lineNumbers: "on",
-                scrollBeyondLastLine: false,
-                automaticLayout: true,
-                padding: { top: 20, bottom: 20 },
-                wordWrap: "on",
-                wrappingIndent: "indent",
-                fontFamily: "'JetBrains Mono', 'Fira Code', 'Monaco', monospace",
-                fontLigatures: true,
-                cursorBlinking: "smooth",
-                cursorSmoothCaretAnimation: "on",
-                smoothScrolling: true,
-                renderLineHighlight: "gutter",
-                bracketPairColorization: { enabled: true },
-              }}
-            />
-          </div>
+          <Editor
+            height="calc(100% - 3rem)"
+            defaultLanguage={language}
+            language={language}
+            theme="vs-dark"
+            value={code}
+            onChange={(value) => setCode(value || "")}
+            options={{
+              minimap: { enabled: false },
+              fontSize: 16,
+              lineNumbers: "on",
+              scrollBeyondLastLine: false,
+              automaticLayout: true,
+              padding: { top: 20, bottom: 20 },
+              wordWrap: "on",
+              wrappingIndent: "indent",
+              fontFamily: "'JetBrains Mono', 'Fira Code', Consolas, monospace",
+              lineHeight: 1.7,
+              renderLineHighlight: "line",
+              selectOnLineNumbers: true,
+              contextmenu: false,
+              smoothScrolling: true,
+              cursorBlinking: "smooth",
+              renderWhitespace: "selection",
+              bracketPairColorization: { enabled: true },
+            }}
+          />
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>

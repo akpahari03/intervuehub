@@ -2,20 +2,18 @@ import { LoaderIcon } from "lucide-react";
 
 function LoaderUI() {
   return (
-    <div className="h-[calc(100vh-4rem-1px)] flex items-center justify-center">
-      <div className="relative">
-        {/* Outer glow ring */}
-        <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl animate-pulse" />
-        
-        {/* Glass container */}
-        <div className="relative glass rounded-full p-6 glow-blue">
-          <LoaderIcon className="h-8 w-8 animate-spin text-blue-500" />
+    <div className="h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/30">
+      <div className="flex flex-col items-center gap-6 animate-fade-in">
+        <div className="relative">
+          <div className="w-16 h-16 bg-gradient-primary rounded-3xl flex items-center justify-center shadow-2xl shadow-primary/25 animate-pulse">
+            <LoaderIcon className="h-8 w-8 animate-spin text-white" />
+          </div>
+          <div className="absolute inset-0 bg-gradient-primary rounded-3xl blur-xl opacity-30 animate-pulse"></div>
         </div>
-        
-        {/* Floating particles */}
-        <div className="absolute -top-2 -right-2 w-2 h-2 rounded-full bg-blue-500/50 animate-ping" />
-        <div className="absolute -bottom-2 -left-2 w-1.5 h-1.5 rounded-full bg-purple-500/50 animate-ping" style={{ animationDelay: '0.5s' }} />
-        <div className="absolute top-0 left-0 w-1 h-1 rounded-full bg-green-500/50 animate-ping" style={{ animationDelay: '1s' }} />
+        <div className="text-center space-y-2">
+          <p className="text-lg font-semibold text-foreground">Loading...</p>
+          <p className="text-sm text-muted-foreground">Please wait while we prepare everything for you</p>
+        </div>
       </div>
     </div>
   );

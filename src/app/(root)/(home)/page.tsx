@@ -38,100 +38,95 @@ export default function Home() {
   if (isLoading) return <LoaderUI />;
 
   return (
-    <div className="container max-w-7xl mx-auto p-6 space-y-12">
-      {/* WELCOME SECTION */}
-      <div className="relative overflow-hidden">
-        {/* Background decoration */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl float" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-500/10 rounded-full blur-3xl float-delayed" />
-        
-        <div className="relative glass-strong rounded-3xl p-8 md:p-12 border-gradient">
-          <div className="text-center space-y-6">
-            <div className="flex items-center justify-center mb-4">
-              <div className="glass-subtle rounded-full p-3 glow-blue">
-                <SparklesIcon className="w-8 h-8 text-blue-500" />
-              </div>
-            </div>
-            
-            <h1 className="text-5xl md:text-6xl font-bold gradient-text leading-tight">
-              Welcome back!
-            </h1>
-            
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              {isInterviewer
-                ? "Orchestrate seamless interviews and discover exceptional talent"
-                : "Step into your next opportunity with confidence and clarity"}
-            </p>
+    <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-background to-muted/30">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        {/* Enhanced Welcome Section */}
+        <div className="mb-20 text-center animate-fade-in">
+          <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+            <SparklesIcon className="w-4 h-4" />
+            {isInterviewer ? "Interviewer Portal" : "Candidate Portal"}
           </div>
+          <h1 className="text-5xl font-bold text-foreground mb-4 tracking-tight">
+            {isInterviewer ? (
+              <>
+                <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                  Interview
+                </span>{" "}
+                Dashboard
+              </>
+            ) : (
+              <>
+                Your{" "}
+                <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                  Interviews
+                </span>
+              </>
+            )}
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            {isInterviewer
+              ? "Conduct seamless technical interviews, evaluate candidates, and make informed hiring decisions with our comprehensive interview platform"
+              : "Join your scheduled technical interviews and demonstrate your skills in a professional environment"}
+          </p>
         </div>
-      </div>
 
-      {isInterviewer ? (
-        <>
-          {/* QUICK ACTIONS GRID */}
-          <div className="space-y-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold mb-2">Quick Actions</h2>
-              <p className="text-muted-foreground">Everything you need at your fingertips</p>
-            </div>
-            
-            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {QUICK_ACTIONS.map((action) => (
-                <ActionCard
-                  key={action.title}
-                  action={action}
-                  onClick={() => handleQuickAction(action.title)}
-                />
+        {isInterviewer ? (
+          <>
+            {/* Enhanced Quick Actions Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-20 animate-slide-up">
+              {QUICK_ACTIONS.map((action, index) => (
+                <div key={action.title} style={{ animationDelay: `${index * 100}ms` }} className="animate-fade-in">
+                  <ActionCard
+                    action={action}
+                    onClick={() => handleQuickAction(action.title)}
+                  />
+                </div>
               ))}
             </div>
-          </div>
 
-          <MeetingModal
-            isOpen={showModal}
-            onClose={() => setShowModal(false)}
-            title={modalType === "join" ? "Join Meeting" : "Start Meeting"}
-            isJoinMeeting={modalType === "join"}
-          />
-        </>
-      ) : (
-        <>
-          {/* CANDIDATE INTERVIEWS SECTION */}
-          <div className="space-y-8">
-            <div className="text-center">
-              <h2 className="text-3xl font-bold mb-2">Your Interviews</h2>
-              <p className="text-muted-foreground">Your journey to success starts here</p>
-            </div>
-
-            <div className="glass-subtle rounded-2xl p-8">
+            <MeetingModal
+              isOpen={showModal}
+              onClose={() => setShowModal(false)}
+              title={modalType === "join" ? "Join Meeting" : "Start Meeting"}
+              isJoinMeeting={modalType === "join"}
+            />
+          </>
+        ) : (
+          <>
+            {/* Enhanced Interviews Section */}
+            <div className="space-y-8 animate-slide-up">
               {interviews === undefined ? (
-                <div className="flex justify-center py-16">
-                  <div className="glass rounded-full p-4">
-                    <Loader2Icon className="h-8 w-8 animate-spin text-blue-500" />
+                <div className="flex justify-center py-24">
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-12 bg-gradient-primary rounded-2xl flex items-center justify-center animate-pulse">
+                      <Loader2Icon className="h-6 w-6 animate-spin text-white" />
+                    </div>
+                    <p className="text-muted-foreground">Loading your interviews...</p>
                   </div>
                 </div>
               ) : interviews.length > 0 ? (
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                  {interviews.map((interview) => (
-                    <MeetingCard key={interview._id} interview={interview} />
+                  {interviews.map((interview, index) => (
+                    <div key={interview._id} style={{ animationDelay: `${index * 100}ms` }} className="animate-fade-in">
+                      <MeetingCard interview={interview} />
+                    </div>
                   ))}
                 </div>
               ) : (
-                <div className="text-center py-16 space-y-4">
-                  <div className="glass rounded-full w-20 h-20 flex items-center justify-center mx-auto">
-                    <SparklesIcon className="w-8 h-8 text-muted-foreground" />
+                <div className="text-center py-24">
+                  <div className="w-20 h-20 bg-gradient-primary rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                    <div className="w-8 h-8 bg-white rounded-xl"></div>
                   </div>
-                  <div>
-                    <h3 className="text-xl font-medium mb-2">No interviews yet</h3>
-                    <p className="text-muted-foreground">
-                      Your scheduled interviews will appear here
-                    </p>
-                  </div>
+                  <h3 className="text-2xl font-semibold text-foreground mb-3">No interviews scheduled</h3>
+                  <p className="text-lg text-muted-foreground max-w-md mx-auto">
+                    Your upcoming technical interviews will appear here once they're scheduled
+                  </p>
                 </div>
               )}
             </div>
-          </div>
-        </>
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
